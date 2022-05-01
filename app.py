@@ -100,7 +100,7 @@ def create_app(test_config=None):
 					for checkbox in request.form.getlist('check'):
 						record = Request.query.filter_by(id=checkbox).first()
 						record.taken = True
-						db.session.commit()
+						record.update()
 					return redirect(url_for('home'))
 			return render_template("home.html", requests=requests, admin_check=admin_check, recipient_check=recipient_check)
 		# if not authenticated, a welcome page is shown asking the user to log in
@@ -145,8 +145,7 @@ def create_app(test_config=None):
 		        	event_id = event_id,
 		        	event_name = event_name
 		        	)
-				db.session.add(new_request)
-				db.session.commit()	
+				new_request.insert()	
 				return redirect(url_for("user_requests"))
 			return render_template('add.html',form=form, admin_check=admin_check, recipient_check=recipient_check)
 		else:
@@ -172,8 +171,7 @@ def create_app(test_config=None):
 			        name = form.name.data,
 			        date = form.date.data
 			        )
-				db.session.add(new_event)
-				db.session.commit()
+				new_event.insert()
 				return redirect(url_for("user_requests"))
 			return render_template('add_event.html',form=form, admin_check=admin_check, recipient_check=recipient_check)	
 		else:
@@ -238,7 +236,7 @@ def create_app(test_config=None):
 			req.price = form.price.data
 			req.shipping_address = form.shipping_address.data
 			req.phone = form.phone.data
-			db.session.commit()
+			req.update()
 			return redirect(url_for("user_requests"))	
 
 		elif request.method == 'GET':
@@ -271,8 +269,7 @@ def create_app(test_config=None):
 		elif req.recipient_email != email: 
 			abort(403)	
 
-		db.session.delete(req)
-		db.session.commit()
+		req.delete()
 		return make_response(redirect(url_for("user_requests")),200)
 
 

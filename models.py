@@ -32,6 +32,10 @@ class Event(db.Model):
 	date = db.Column(db.DateTime(), nullable=False)
 	requests = db.relationship("Request", backref = "event", lazy = True)
 
+	def insert(self):
+		db.session.add(self)
+		db.session.commit()
+
 
     
 class Request(db.Model):
@@ -48,3 +52,14 @@ class Request(db.Model):
 	taken = db.Column(db.Boolean, nullable=False)
 	event_id = db.Column(db.Integer, db.ForeignKey("event.id"), nullable = False)
 	event_name = db.Column(db.String(), nullable=False)
+
+	def insert(self):
+		db.session.add(self)
+		db.session.commit()
+
+	def delete(self):
+		db.session.delete(self)
+		db.session.commit()
+
+	def update(self):
+		db.session.commit()
