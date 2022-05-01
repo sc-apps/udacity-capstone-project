@@ -11,7 +11,7 @@ Unfortunately, some people struggle to survive and don't have sufficient funds t
 Base URL
 ################################################
 
-At present this app can only be run locally and is not hosted as a base URL. The backend app is hosted at the default, http:127.0.0.1:5000/, which is set as a proxy in the frontend configuration.
+You can test the app at Heroku: https://myapp-5566.herokuapp.com/ or locally http:127.0.0.1:5000/
 
 
 ################################################
