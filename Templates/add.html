@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Add a new request to ask Santa for a gift to your child</h1>
+  <br>
+  <form method="POST">
+      {{ form.hidden_tag() }}
+    <div class="row">
+      <div class="col">
+        {{ form.child_name.label }} {{ form.child_name(class="form-control") }}
+      </div>
+      <div class="col">
+        {{ form.child_age.label }} {{ form.child_age(class="form-control") }}
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        {{ form.gift_name.label }} {{ form.gift_name(class="form-control") }}
+      </div>
+      <div class="col">
+        {{ form.price.label }} {{ form.price(class="form-control") }}
+      </div>
+    </div> 
+    <br>
+    {{ form.gift_link.label }} {{ form.gift_link(class="form-control") }} 
+    <br>
+    <div class="row">
+      <div class="col">
+        {{ form.event_id.label }} {{ form.event_id(class="form-control") }}
+      </div>
+      <div class="col">
+        {{ form.phone.label }} {{ form.phone(class="form-control") }}
+      </div>
+    </div>
+    <br>
+    {{ form.shipping_address.label }} {{ form.shipping_address(class="form-control") }} 
+    <br>
+    {{ form.confirmation() }} {{ form.confirmation.label }} 
+    <br>
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+</div>
+{% endblock %}
+

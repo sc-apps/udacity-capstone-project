@@ -1,0 +1,208 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.1
+-- Dumped by pg_dump version 14.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: newmac
+--
+
+CREATE TABLE public.alembic_version (
+    version_num character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.alembic_version OWNER TO newmac;
+
+--
+-- Name: event; Type: TABLE; Schema: public; Owner: newmac
+--
+
+CREATE TABLE public.event (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    date timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.event OWNER TO newmac;
+
+--
+-- Name: event_id_seq; Type: SEQUENCE; Schema: public; Owner: newmac
+--
+
+CREATE SEQUENCE public.event_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.event_id_seq OWNER TO newmac;
+
+--
+-- Name: event_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: newmac
+--
+
+ALTER SEQUENCE public.event_id_seq OWNED BY public.event.id;
+
+
+--
+-- Name: request; Type: TABLE; Schema: public; Owner: newmac
+--
+
+CREATE TABLE public.request (
+    id integer NOT NULL,
+    child_name character varying NOT NULL,
+    child_age integer NOT NULL,
+    gift_name character varying NOT NULL,
+    gift_link character varying NOT NULL,
+    price integer NOT NULL,
+    shipping_address character varying NOT NULL,
+    phone character varying NOT NULL,
+    recipient_email character varying NOT NULL,
+    taken boolean NOT NULL,
+    event_id integer NOT NULL,
+    event_name character varying NOT NULL
+);
+
+
+ALTER TABLE public.request OWNER TO newmac;
+
+--
+-- Name: request_id_seq; Type: SEQUENCE; Schema: public; Owner: newmac
+--
+
+CREATE SEQUENCE public.request_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.request_id_seq OWNER TO newmac;
+
+--
+-- Name: request_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: newmac
+--
+
+ALTER SEQUENCE public.request_id_seq OWNED BY public.request.id;
+
+
+--
+-- Name: event id; Type: DEFAULT; Schema: public; Owner: newmac
+--
+
+ALTER TABLE ONLY public.event ALTER COLUMN id SET DEFAULT nextval('public.event_id_seq'::regclass);
+
+
+--
+-- Name: request id; Type: DEFAULT; Schema: public; Owner: newmac
+--
+
+ALTER TABLE ONLY public.request ALTER COLUMN id SET DEFAULT nextval('public.request_id_seq'::regclass);
+
+
+--
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: newmac
+--
+
+COPY public.alembic_version (version_num) FROM stdin;
+\.
+
+
+--
+-- Data for Name: event; Type: TABLE DATA; Schema: public; Owner: newmac
+--
+
+COPY public.event (id, name, date) FROM stdin;
+1	Christmas	2022-12-25 00:00:00
+2	New Year	2022-12-31 00:00:00
+3	Easter	2023-04-15 00:00:00
+\.
+
+
+--
+-- Data for Name: request; Type: TABLE DATA; Schema: public; Owner: newmac
+--
+
+COPY public.request (id, child_name, child_age, gift_name, gift_link, price, shipping_address, phone, recipient_email, taken, event_id, event_name) FROM stdin;
+1	Tommy	8	Lego Star Wars	https://www.amazon.pl/LEGO-Star-Wars-Advent-Calendar/dp/B08W9K2CTM/ref=sr_1_1_sspa?crid=2KOOO82EUJP9N&keywords=lego+star+wars&qid=1651318307&sprefix=lego+%2Caps%2C109&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExWkkyRE1aUENPTk5XJmVuY3J5cHRlZElkPUEwMjM4NDEzMjFVTTBRQjIxTzlVNyZlbmNyeXB0ZWRBZElkPUEwNDczMjg3MjFIWjRCWUpKNzBRRSZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=	120	5, Washington Str 01111	111-111-1111	patt.manager@gmail.com	f	1	Christmas
+2	Marta	3	Teddy Bear	https://www.amazon.pl/BRUBAKER-Miś-Pluszowy-Kopertą-Czerwony/dp/B081CK4GJV/ref=sr_1_5?crid=28YEAJ6W16H2R&keywords=teddy%2Bbear&qid=1651387380&sprefix=teddy%2B%2Caps%2C111&sr=8-5&th=1	70	5th Ave, 1631	111-111-1114	ted.barista@gmail.com	f	1	Christmas
+3	Will	5	Fire Truck	https://www.amazon.pl/Dickie-203308371-Straż-Fire-Fighter/dp/B06VSL5HN1/ref=sr_1_5?__mk_pl_PL=ÅMÅŽÕÑ&crid=3IC77G8DNHYSG&keywords=fire+truck&qid=1651387524&sprefix=fire+truck%2Caps%2C109&sr=8-5	95	47 Str., 152	111-111-1111	ted.barista@gmail.com	f	1	Christmas
+4	Bella	4	Spidey Vehicle	https://www.amazon.pl/Spidey-Feature-Vehicle-2n1-pojazd/dp/B08T4935YL/ref=sr_1_9?__mk_pl_PL=ÅMÅŽÕÑ&crid=1JUMIQTPYAPDG&keywords=spidey&qid=1651387654&sprefix=spidey%2Caps%2C108&sr=8-9	127	312, Madison Ave, NY 12134	111-111-411	ted.barista@gmail.com	f	1	Christmas
+5	Anna	2	Disney Doll	https://www.amazon.pl/Disney-Anna-Singing-Frozen-wielokolorowa/dp/B07YVDRC6K/ref=sr_1_5?__mk_pl_PL=ÅMÅŽÕÑ&crid=NTRG2CQOKOU3&keywords=doll+frozen&qid=1651387911&sprefix=doll+frozen%2Caps%2C83&sr=8-5	144	1245, Downtown Str., NY	111-111-1121	ted.barista@gmail.com	f	1	Christmas
+\.
+
+
+--
+-- Name: event_id_seq; Type: SEQUENCE SET; Schema: public; Owner: newmac
+--
+
+SELECT pg_catalog.setval('public.event_id_seq', 3, true);
+
+
+--
+-- Name: request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: newmac
+--
+
+SELECT pg_catalog.setval('public.request_id_seq', 5, true);
+
+
+--
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: newmac
+--
+
+ALTER TABLE ONLY public.alembic_version
+    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+
+
+--
+-- Name: event event_pkey; Type: CONSTRAINT; Schema: public; Owner: newmac
+--
+
+ALTER TABLE ONLY public.event
+    ADD CONSTRAINT event_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: request request_pkey; Type: CONSTRAINT; Schema: public; Owner: newmac
+--
+
+ALTER TABLE ONLY public.request
+    ADD CONSTRAINT request_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: request request_event_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: newmac
+--
+
+ALTER TABLE ONLY public.request
+    ADD CONSTRAINT request_event_id_fkey FOREIGN KEY (event_id) REFERENCES public.event(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

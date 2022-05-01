@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+
+  {% if session %}
+        <div class="container">
+          <div class="jumbotron">
+            <h1>Secret Santa</h1>
+            <br>
+            <p>Welcome!</p>
+            <p>Here you can view your requests, and modify them unless they are taken by a Secret Santa.</p>
+          </div>
+        </div>
+
+    {% if requests %}
+    <form method="post">
+      <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Child's Name</th>
+          <th scope="col">Child's Age</th>
+          <th scope="col">Child's Gift</th>
+          <th scope="col">Gift's Price</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in requests %}
+          <tr>
+            {% if admin_check == False %}
+              {% if request.taken == False %}
+                <th scope="row"><a href="{{url_for('update_request',request_id=request.id)}}">{{ request.id }}</a></th>
+              {% else %}
+                <th scope="row">{{ request.id }}</th>
+              {% endif %}
+            {% else %}
+              <th scope="row"><a href="{{url_for('update_request',request_id=request.id)}}">{{ request.id }}</a></th>
+            {% endif %}
+            <td>{{ request.child_name }}</td>
+            <td>{{ request.child_age }}</td>
+            <td><a href= {{ request.gift_link }}>{{ request.gift_name }}</a></td>
+            <td>{{ request.price }} zł</td>
+            {% if request.taken == False %}
+              <td>In Progress</td>
+            {% else %}
+              <td>Taken</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+    </form>   
+
+    {% else %}
+          <div class="container">
+            <div class="jumbotron">
+              <p>There are no gift requests at the moment.</p>
+            </div>
+          </div>
+    {% endif %}
+  
+  {% endif %}
+
+  
+
+{% endblock %}
+
+
+

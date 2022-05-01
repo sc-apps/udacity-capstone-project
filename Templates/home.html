@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+  {% if session %}
+        <div class="container">
+          <div class="jumbotron">
+            <h1>Secret Santa</h1>
+            <br>
+            <p>Welcome to your profile!</p>
+            <p>Here you can select one or a few of kids to become a Secret Santa for them.</p>
+            <p>Don't forget to confirm your choice by clicking Submit.</p>
+          </div>
+        </div>
+
+        {% if requests.items != [] %}
+            <form method="post">
+              <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Child's Name</th>
+                  <th scope="col">Child's Age</th>
+                  <th scope="col">Child's Gift</th>
+                  <th scope="col">Gift's Price</th>
+                  <th scope="col">Event</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for request in requests.items %}
+                  <tr>
+                    <th scope="row">{{ request.id }}</th>
+                    <td>{{ request.child_name }}</td>
+                    <td>{{ request.child_age }}</td>
+                    <td><a href= {{ request.gift_link }}>{{ request.gift_name }}</a></td>
+                    <td>{{ request.price }} zł</td>
+                    <td>{{ request.event_name }}</td>
+                    <td><input class="form-check-input" type="checkbox" name="check" id="flexCheckChecked" value="{{ request.id }}">
+                        <label class="form-check-label" for="flexCheckChecked">&nbsp;</label></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+              </table>
+              <div class="text-right">
+                <input class="btn btn-primary" type="submit" name="submit-button" value="Submit">
+              </div>
+            </form>  
+              <nav>
+                <ul class="pagination pagination-sm justify-content-center">
+                  {% for page_num in requests.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if requests.page == page_num %}
+                    <li class="page-item disabled">
+                      <a class="page-link" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a></li>
+                    </li>
+                    {% else %}
+                      <li class="page-item"><a class="page-link" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </nav>        
+
+          {% else %}
+                <div class="container">
+                  <div class="jumbotron">
+                    <p>There are no gift requests at the moment.</p>
+                  </div>
+                </div>
+          {% endif %}
+
+  {% else %}
+        <div class="container">
+          <div class="jumbotron">
+            <h1>Secret Santa</h1>
+            <br>
+            <p>Welcome to Our App.</p>
+            <p>Please login to become a Secret Santa or add a request for a gift to your child.</p>
+          </div>
+        </div>
+  {% endif %}
+
+  
+{% endblock %}
+
+
