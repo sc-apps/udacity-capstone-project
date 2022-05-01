@@ -17,38 +17,73 @@ You can test the app at Heroku: https://myapp-5566.herokuapp.com/ or locally htt
 ################################################
 Instructions
 ################################################
+
 To test locally:
 1. Create a virtual environment
 
-2. Install dependencies from requirements.txt file in the activated virtual environment
+2. Set up environment variables
+	Run in Terminal in activated virtual environment:
+	chmod +x setup.sh
+	source setup.sh
+
+3. Install dependencies from requirements.txt file in the activated virtual environment
 	- pip install -r requirements.txt
 
-3. Add data into .env file
+4. Add data into .env file
 	- Update all variables where information is missing and add provided tokens
 
-4. Setup database
+5. Setup database
 	- Create appdb
 	  Command in Terminal: createdb appdb
 
 	- Copy db from appdb.psql to your appdb to have the db with a few records created
 	  Command in Terminal: psql appdb < appdb.psql
 
-5. To run the development server, run these commands in Terminal in the activated virtual environment:
+6. To run the development server, run these commands in Terminal in the activated virtual environment:
 	- export FLASK_APP=app.py
 	- export FLASK_ENV=development
 	- flask run
 
-6. Use the provided accounts to log in and test the app
+7. Use the provided accounts to log in and test the app
 	- A user with name Patt has Admin role assigned
 	- A user with name Ted has Recipient role assigned
 	- A user with name Kelly who doesn't have any role assigned
 	- You can also register a new user, that user won't have any role. The functionality will be similar to Kelly
 
-7. To run tests:
+8. To run tests:
 	- Update tokens in .env file
 	- Create test_appdb DB (createdb test_appdb) and copy data from appdb to test_appdb (psql test_appdb < appdb.psql)
 	- Then run tests: python3 test_app.py
 
+----------------------------------------------------
+
+To deploy and test in Heroku:
+1. Create .git folder
+	- Run command: git init
+
+2. Create an app in Heroku
+	- Run command: heroku create [some unique app name] --buildpack heroku/python
+
+3. Add PostgreSQL database
+	- Run command: heroku adding:create heroku-postgresql:hobby-dev --app [name of the app created above]
+
+4. Configure app in Heroku
+	- Get database_path by running this command:
+	heroku config -app [app name]
+	- Copy the output DB path, i.e. postgres://....
+	- Make change in models.py by uncommenting and commenting a few lines
+	- Export database_path by running the command with copied db path:
+	export database_path="postgresql://...." (postgres:// might not be recognized, because of that export postgresql://)
+	- Add other variables from setup.sh to heroku app by navigating to Heroku dashboard >> Particular App >> Settings >> Reveal Config Vars
+
+5. Deploy code
+	- Add the code to git
+	git add -A or git add .
+	git commit -m "First commit"
+	git push heroku master
+
+6. Migrate the database
+	Run command: heroku run python manage.py db upgrade --app [app name]
 
 ################################################
 Endpoints:

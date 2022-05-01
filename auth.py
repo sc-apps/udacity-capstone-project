@@ -1,19 +1,19 @@
 import os
-from os import environ as env
-from dotenv import find_dotenv, load_dotenv
+from os import environ
+#from dotenv import find_dotenv, load_dotenv
 import json
 from flask import request, _request_ctx_stack, abort
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
+#ENV_FILE = find_dotenv()
+#if ENV_FILE:
+#    load_dotenv(ENV_FILE)
 
-AUTH0_DOMAIN = env.get("AUTH0_DOMAIN")
+AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
 ALGORITHMS = ['RS256']
-API_AUDIENCE = env.get("AUTH0_CLIENT_ID")
+API_AUDIENCE = os.environ.get("AUTH0_CLIENT_ID")
 
 class AuthError(Exception):
     def __init__(self, error, status_code):

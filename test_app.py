@@ -1,6 +1,6 @@
 import os
-from os import environ as env
-from dotenv import find_dotenv, load_dotenv
+from os import environ
+#from dotenv import find_dotenv, load_dotenv
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
@@ -12,11 +12,11 @@ from models import db, setup_db, Event, Request
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        ENV_FILE = find_dotenv()
-        if ENV_FILE:
-            load_dotenv(ENV_FILE)
-        database_name = env.get("database_name_test")
-        admin_token = env.get("admin_token")
+        #ENV_FILE = find_dotenv()
+        #if ENV_FILE:
+        #    load_dotenv(ENV_FILE)
+        database_name = os.environ.get("database_name_test")
+        admin_token = os.environ.get("admin_token")
 
         self.app = create_app()
         self.client = self.app.test_client
@@ -49,10 +49,10 @@ class TestCase(unittest.TestCase):
     
     # testing this endpoint with Recipient role who has permissions to access this page (Ted)
     def test_get_AddForm(self):
-        ENV_FILE = find_dotenv()
-        if ENV_FILE:
-            load_dotenv(ENV_FILE)
-        recipient_token = env.get("recipient_token")
+        #ENV_FILE = find_dotenv()
+        #if ENV_FILE:
+        #    load_dotenv(ENV_FILE)
+        recipient_token = os.environ.get("recipient_token")
         res = self.client().get('/requests/add', headers={"Authorization":"Bearer {}".format(recipient_token)})
         self.assertEqual(res.status_code, 200)
     
@@ -68,10 +68,10 @@ class TestCase(unittest.TestCase):
 
     # testing this endpoint with Recipient role who doesn't have permissions to access this page (Ted)
     def test_403_get_AddEvent(self):
-        ENV_FILE = find_dotenv()
-        if ENV_FILE:
-            load_dotenv(ENV_FILE)
-        recipient_token = env.get("recipient_token")
+        #ENV_FILE = find_dotenv()
+        #if ENV_FILE:
+        #    load_dotenv(ENV_FILE)
+        recipient_token = os.environ.get("recipient_token")
         res = self.client().get('/events/add', headers={"Authorization":"Bearer {}".format(recipient_token)})
         self.assertEqual(res.status_code, 403)
 
@@ -82,10 +82,10 @@ class TestCase(unittest.TestCase):
 
     # testing this endpoint with a user who doesn't have Admin or Recipient role to access this page (Kelly)
     def test_403_get_all_requests(self):
-        ENV_FILE = find_dotenv()
-        if ENV_FILE:
-            load_dotenv(ENV_FILE)
-        without_role_token = env.get("without_role_token")
+        #ENV_FILE = find_dotenv()
+        #if ENV_FILE:
+        #    load_dotenv(ENV_FILE)
+        without_role_token = os.environ.get("without_role_token")
         res = self.client().get('/requests', headers={"Authorization":"Bearer {}".format(without_role_token)})
         self.assertEqual(res.status_code, 403)
 

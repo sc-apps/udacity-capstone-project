@@ -1,16 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 import os
-from os import environ as env
-from dotenv import find_dotenv, load_dotenv
+from os import environ
 	
 
-ENV_FILE = find_dotenv()
-if ENV_FILE:
-	load_dotenv(ENV_FILE)
-
-database_name = env.get("database_name")
+database_name = os.environ.get("database_name")
 database_path = "postgresql://{}/{}".format('localhost:5432', database_name)
-
+# for Heroku deployment comment two lines above and uncomment the line below
+#database_path = os.environ.get("database_path")
 
 db = SQLAlchemy()
 
@@ -18,7 +14,7 @@ db = SQLAlchemy()
 def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.secret_key = env.get("APP_SECRET_KEY")
+    app.secret_key = os.environ.get("APP_SECRET_KEY")
     db.app = app
     db.init_app(app)
     db.create_all()

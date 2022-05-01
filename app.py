@@ -2,7 +2,7 @@
 # Imports
 #----------------------------------------------------------------------------#
 import os
-from os import environ as env
+from os import environ
 import json
 from flask import Flask, render_template, make_response, request, Response, flash, redirect, url_for, jsonify, abort, session
 from flask_sqlalchemy import SQLAlchemy
@@ -15,7 +15,7 @@ from models import db, Request, Event, setup_db
 
 from urllib.parse import quote_plus, urlencode
 from authlib.integrations.flask_client import OAuth
-from dotenv import find_dotenv, load_dotenv
+#from dotenv import find_dotenv, load_dotenv
 
 #----------------------------------------------------------------------------#
 # App Config
@@ -23,9 +23,9 @@ from dotenv import find_dotenv, load_dotenv
 
 def create_app(test_config=None):	
 
-	ENV_FILE = find_dotenv()
-	if ENV_FILE:
-	    load_dotenv(ENV_FILE)	
+	#ENV_FILE = find_dotenv()
+	#if ENV_FILE:
+	#    load_dotenv(ENV_FILE)	
 
 	app = Flask(__name__)
 	setup_db(app)	
@@ -43,10 +43,10 @@ def create_app(test_config=None):
 
 	oauth.register(
 	    "auth0",
-	    client_id=env.get("AUTH0_CLIENT_ID"),
-	    client_secret=env.get("AUTH0_CLIENT_SECRET"),
+	    client_id=os.environ.get("AUTH0_CLIENT_ID"),
+	    client_secret=os.environ.get("AUTH0_CLIENT_SECRET"),
 	    client_kwargs={"scope": "openid profile email"},
-	    server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
+	    server_metadata_url=f'https://{os.environ.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
 	)	
 	
 
@@ -69,12 +69,12 @@ def create_app(test_config=None):
 	def logout():
 	    session.clear()
 	    return redirect(
-	        "https://" + env.get("AUTH0_DOMAIN")
+	        "https://" + os.environ.get("AUTH0_DOMAIN")
 	        + "/v2/logout?"
 	        + urlencode(
 	            {
 	                "returnTo": url_for("home", _external=True),
-	                "client_id": env.get("AUTH0_CLIENT_ID"),
+	                "client_id": os.environ.get("AUTH0_CLIENT_ID"),
 	            },
 	            quote_via=quote_plus,
 	        )
