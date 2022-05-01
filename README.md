@@ -23,25 +23,28 @@ To test locally:
 2. Install dependencies from requirements.txt file in the activated virtual environment
 	- pip install -r requirements.txt
 
-3. Setup database
+3. Add data into .env file
+	- Update all variables where information is missing and add provided tokens
+
+4. Setup database
 	- Create appdb
 	  Command in Terminal: createdb appdb
 
 	- Copy db from appdb.psql to your appdb to have the db with a few records created
 	  Command in Terminal: psql appdb < appdb.psql
 
-4. To run the development server, run these commands in Terminal in the activated virtual environment:
+5. To run the development server, run these commands in Terminal in the activated virtual environment:
 	- export FLASK_APP=app.py
 	- export FLASK_ENV=development
 	- flask run
 
-5. Use the provided accounts to log in and test the app
+6. Use the provided accounts to log in and test the app
 	- A user with name Patt has Admin role assigned
 	- A user with name Ted has Recipient role assigned
 	- A user with name Kelly who doesn't have any role assigned
 	- You can also register a new user, that user won't have any role. The functionality will be similar to Kelly
 
-6. To run tests:
+7. To run tests:
 	- Update tokens in .env file
 	- Create test_appdb DB (createdb test_appdb) and copy data from appdb to test_appdb (psql test_appdb < appdb.psql)
 	- Then run tests: python3 test_app.py
